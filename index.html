@@ -5,401 +5,653 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fatema Saify</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23140f0f'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='700' font-size='40' fill='%23a78bfa'>F</text></svg>">
-<meta name="description" content="Fatema Saify: AI/ML engineering student at VIT Bhopal. LLMs, RAG, NLP, and reproducible ML systems.">
+<meta name="description" content="Fatema Saify: AI/ML engineering student at VIT Bhopal. A grounded terminal portfolio: LLMs, RAG and reproducible ML systems.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Recursive:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <script>
-  // Apply saved theme before paint to avoid a flash.
   try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
 <style>
   :root {
-    --bg: #faf7f5;
-    --fg: #1f1a1a;
-    --muted: #6b6262;
-    --faint: #e8e1de;
-    --card: #ffffff;
-    --accent: #7c3aed;
-    --accent-soft: rgba(124, 58, 237, 0.10);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #140f0f;
-      --fg: #e5e5e5;
-      --muted: #a39b9b;
-      --faint: #2a2323;
-      --card: #1b1515;
-      --accent: #a78bfa;
-      --accent-soft: rgba(167, 139, 250, 0.12);
-    }
-  }
-  :root[data-theme="dark"] {
+    --page: #0d0a0a;
     --bg: #140f0f;
-    --fg: #e5e5e5;
-    --muted: #a39b9b;
-    --faint: #2a2323;
-    --card: #1b1515;
+    --bar: #1b1515;
+    --line: #2c2424;
+    --fg: #e9e4e4;
+    --muted: #9a9090;
+    --dim: #6b6161;
     --accent: #a78bfa;
-    --accent-soft: rgba(167, 139, 250, 0.12);
+    --accent-soft: rgba(167, 139, 250, 0.14);
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --blue: #7dd3fc;
+  }
+  :root[data-theme="light"] {
+    --page: #ece7e4;
+    --bg: #fbf8f6;
+    --bar: #f2ece8;
+    --line: #e0d7d2;
+    --fg: #231d1d;
+    --muted: #6e6464;
+    --dim: #9c9191;
+    --accent: #6d28d9;
+    --accent-soft: rgba(109, 40, 217, 0.10);
+    --green: #15803d;
+    --amber: #b45309;
+    --red: #b91c1c;
+    --blue: #0369a1;
   }
 
   * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  html, body { height: 100%; }
   body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font: 16px/1.65 Recursive, Monaco, Menlo, Consolas, monospace;
+    margin: 0; background: var(--page); color: var(--fg);
+    font: 14px/1.6 "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
-  a:hover { color: var(--accent); }
-  h1, h2, h3 { font-family: "Space Mono", Recursive, monospace; line-height: 1.25; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
-  /* ---------- header ---------- */
-  header {
-    position: sticky; top: 0; z-index: 10;
-    background: var(--bg);
-    border-bottom: 1px solid transparent;
-    transition: border-color .2s;
+  /* ---------- window ---------- */
+  .window {
+    position: fixed; inset: 16px;
+    display: grid; grid-template-rows: auto 1fr auto auto;
+    background: var(--bg); border: 1px solid var(--line); border-radius: 12px;
+    overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
   }
-  header.scrolled { border-bottom-color: var(--faint); }
-  nav {
-    max-width: 800px; margin: 0 auto; padding: 14px 16px;
-    display: flex; align-items: center; gap: 20px;
+  .titlebar {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--bar); border-bottom: 1px solid var(--line); padding: 0 14px; height: 40px;
   }
-  .brand { font-family: "Space Mono", monospace; font-weight: 700; text-decoration: none; margin-right: auto; }
-  .links { display: flex; gap: 18px; font-size: 14px; }
-  .links a { text-decoration: none; color: var(--muted); }
-  .links a:hover { color: var(--fg); }
-  .theme-toggle {
-    background: none; border: 1px solid var(--faint); border-radius: 8px;
-    color: var(--fg); width: 34px; height: 34px; cursor: pointer;
-    display: grid; place-items: center;
+  .dots { display: flex; gap: 7px; }
+  .dots span { width: 11px; height: 11px; border-radius: 50%; }
+  .dots span:nth-child(1) { background: #ef6b5e; }
+  .dots span:nth-child(2) { background: #e6b54a; }
+  .dots span:nth-child(3) { background: #5cc25f; }
+  .tab {
+    height: 100%; display: flex; align-items: center; gap: 8px; padding: 0 14px;
+    border-top: 2px solid var(--accent); background: var(--bg); font-size: 12px; color: var(--fg);
   }
-  .theme-toggle svg { width: 18px; height: 18px; }
-  .moon { display: none; }
-  :root[data-theme="dark"] .sun { display: none; }
-  :root[data-theme="dark"] .moon { display: block; }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .sun { display: none; }
-    :root:not([data-theme="light"]) .moon { display: block; }
+  .tab .live { width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+  .titlebar .right { margin-left: auto; display: flex; gap: 14px; font-size: 12px; color: var(--muted); white-space: nowrap; }
+  .tab { white-space: nowrap; }
+  .badge-grounded { color: var(--green); }
+
+  .body { display: grid; grid-template-columns: 1fr 300px; min-height: 0; }
+
+  /* ---------- terminal ---------- */
+  .term { overflow-y: auto; padding: 18px 22px 10px; cursor: text; min-height: 0; }
+  .term::-webkit-scrollbar { width: 8px; }
+  .term::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+  .block { margin-bottom: 14px; }
+  .line { white-space: pre-wrap; word-break: break-word; }
+  .prompt { color: var(--accent); font-weight: 600; }
+  .prompt .path { color: var(--blue); font-weight: 400; }
+  .prompt .arrow { color: var(--green); }
+  .muted { color: var(--muted); }
+  .dim { color: var(--dim); }
+  .ok { color: var(--green); }
+  .warn { color: var(--amber); }
+  .err { color: var(--red); }
+  .acc { color: var(--accent); }
+  .b { font-weight: 700; }
+  h3.sec { font-size: 14px; margin: 0 0 6px; color: var(--accent); font-weight: 700; }
+
+  .run {
+    font: inherit; color: var(--blue); background: none; border: 0; padding: 0; cursor: pointer;
+  }
+  .run:hover { text-decoration: underline; }
+  .run.dir { margin-right: 18px; }
+
+  .inputline { display: flex; align-items: center; gap: 8px; }
+  .inputline input {
+    flex: 1; min-width: 0; background: transparent; border: 0; outline: none;
+    color: var(--fg); font: inherit; caret-color: var(--accent); padding: 0;
   }
 
-  /* ---------- layout ---------- */
-  main { max-width: 800px; margin: 0 auto; padding: 32px 16px 64px; }
-  section { margin-top: 56px; scroll-margin-top: 72px; }
-  h2 { font-size: 20px; margin: 0 0 18px; }
-  h2::before { content: "## "; color: var(--accent); }
+  .grid2 { display: grid; grid-template-columns: 170px 1fr; gap: 2px 16px; }
+  .entry { margin-bottom: 12px; }
+  .entry .head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .entry ul { margin: 4px 0 0; padding-left: 18px; }
+  .entry li { margin: 2px 0; }
+  .entry li::marker { color: var(--accent); content: "› "; }
+  .tags { color: var(--dim); }
+  .cite { color: var(--dim); font-size: 12px; }
+  .answer { border-left: 2px solid var(--green); padding-left: 10px; margin: 4px 0; }
+  .answer.none { border-left-color: var(--amber); }
 
-  .hero { display: flex; gap: 24px; align-items: center; margin-top: 16px; }
-  .hero h1 { font-size: 36px; margin: 0 0 4px; }
-  .tagline { color: var(--muted); margin: 0; }
-  .socials { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 18px; font-size: 14px; }
+  /* ---------- side panel ---------- */
+  .panel { border-left: 1px solid var(--line); padding: 18px 20px; overflow-y: auto; font-size: 13px; }
+  .ascii { color: var(--accent); margin: 0 0 14px; line-height: 1.15; font-size: 13px; }
+  .kv { display: grid; grid-template-columns: 78px 1fr; gap: 4px 10px; }
+  .kv dt { color: var(--accent); }
+  .kv dd { margin: 0; }
+  .panel h4 { margin: 20px 0 8px; font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: .5px; }
+  .meter { margin-bottom: 9px; }
+  .meter .top { display: flex; justify-content: space-between; font-size: 12px; }
+  .meter .barbg { height: 6px; background: var(--line); border-radius: 3px; margin-top: 3px; overflow: hidden; }
+  .meter .bar { height: 100%; background: var(--green); border-radius: 3px; }
+  .meter .bar.zero { background: var(--green); width: 100%; opacity: .25; }
+  .swatch { display: flex; gap: 6px; margin-top: 4px; }
+  .swatch span { width: 18px; height: 10px; border-radius: 2px; }
 
-  ul.now { padding-left: 20px; margin: 10px 0 0; }
-  ul.now li { margin: 4px 0; }
-  ul.now li::marker { color: var(--accent); }
-
-
-  /* ---------- timeline ---------- */
-  .item { margin-bottom: 26px; }
-  .item-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .item-title { font-weight: 600; }
-  .date { color: var(--muted); font-size: 14px; white-space: nowrap; }
-  .sub { color: var(--muted); font-size: 14px; margin: 2px 0 6px; }
-  .item ul { margin: 6px 0 0; padding-left: 20px; }
-  .item li { margin: 3px 0; font-size: 15px; }
-
-  /* ---------- project cards ---------- */
-  .cards { display: grid; gap: 14px; }
-  .card {
-    background: var(--card); border: 1px solid var(--faint); border-radius: 10px;
-    padding: 18px 18px 16px;
+  /* ---------- chips + status bar ---------- */
+  .chips {
+    display: flex; gap: 8px; padding: 8px 14px; border-top: 1px solid var(--line);
+    overflow-x: auto; scrollbar-width: none; font-size: 12px; align-items: center;
   }
-  .card h3 { font-size: 16px; margin: 0; }
-  .card h3 a { text-decoration: none; }
-  .card p { margin: 8px 0 10px; font-size: 15px; }
-  .card ul { margin: 0 0 10px; padding-left: 20px; font-size: 14px; }
-  .card li { margin: 3px 0; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag {
-    font-size: 12px; padding: 2px 8px; border-radius: 999px;
-    background: var(--accent-soft); color: var(--accent);
+  .chips::-webkit-scrollbar { display: none; }
+  .chips .label { color: var(--dim); white-space: nowrap; }
+  .chip {
+    font: inherit; white-space: nowrap; color: var(--fg); background: var(--bar);
+    border: 1px solid var(--line); border-radius: 6px; padding: 3px 10px; cursor: pointer;
   }
-  .card-links { display: flex; gap: 14px; font-size: 13px; margin-top: 10px; }
-  .card-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+  .chip:hover { border-color: var(--accent); color: var(--accent); }
+  .chips .keys { margin-left: auto; color: var(--dim); white-space: nowrap; }
+  .chips kbd { font: inherit; color: var(--muted); }
 
-  /* ---------- repo table ---------- */
-  .repos { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
-  .repo {
-    border: 1px solid var(--faint); border-radius: 8px; padding: 12px 14px;
-    text-decoration: none; display: block; font-size: 14px;
+  .status {
+    display: flex; align-items: center; gap: 0; height: 26px; font-size: 12px;
+    background: var(--bar); border-top: 1px solid var(--line); color: var(--muted);
   }
-  .repo:hover { border-color: var(--accent); color: var(--fg); }
-  .repo-name { font-weight: 600; word-break: break-word; }
-  .repo-desc { color: var(--muted); font-size: 13px; margin: 4px 0 8px; }
-  .repo-meta { display: flex; gap: 10px; font-size: 12px; color: var(--muted); align-items: center; }
-  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+  .status > span { padding: 0 12px; border-right: 1px solid var(--line); height: 100%; display: flex; align-items: center; }
+  .status .mode { background: var(--accent); color: var(--bg); font-weight: 700; border-right: 0; }
+  .status .spacer { flex: 1; border-right: 0; }
+  .status .last { border-right: 0; }
 
-  /* ---------- skills ---------- */
-  .skills { display: grid; gap: 10px; }
-  .skill-row { display: grid; grid-template-columns: 150px 1fr; gap: 12px; font-size: 15px; }
-  .skill-row b { color: var(--muted); font-weight: 600; }
-
-  footer { max-width: 800px; margin: 0 auto; padding: 24px 16px 40px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--faint); }
-
+  @media (max-width: 1100px) { .chips .keys { display: none; } }
+  @media (max-width: 860px) {
+    .body { grid-template-columns: 1fr; }
+    .panel { display: none; }
+  }
   @media (max-width: 600px) {
-    .hero { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .hero h1 { font-size: 28px; }
-    .links { display: none; }
-    .skill-row { grid-template-columns: 1fr; gap: 2px; }
-    section { margin-top: 44px; }
+    .window { inset: 0; border-radius: 0; border: 0; }
+    body { font-size: 13px; }
+    .term { padding: 14px 14px 8px; }
+    .inputline input { font-size: 16px; }
+    .titlebar .right .hide-sm, .status .hide-sm, .chips .keys { display: none; }
+    .grid2 { grid-template-columns: 1fr; gap: 0; }
+    .grid2 > :nth-child(odd) { margin-top: 6px; }
+    .tab { padding: 0 10px; font-size: 11px; }
+    .titlebar { gap: 10px; }
+    #clock { display: none; }
   }
+  @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
 </style>
 </head>
 <body>
 
-<header id="site-header">
-  <nav aria-label="Primary">
-    <a class="brand" href="#top">fatema.saify</a>
-    <div class="links">
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#repos">Repos</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
-  </nav>
-</header>
-
-<main id="top">
-
-  <!-- ---------- HERO ---------- -->
-  <div class="hero">
-    <div>
-      <h1>Hi, I'm Fatema</h1>
-      <p class="tagline">AI/ML engineering student at VIT Bhopal · building reliable LLM systems</p>
+<div class="window" role="application" aria-label="Fatema Saify terminal portfolio">
+  <div class="titlebar">
+    <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="tab"><span class="live"></span>fatema@vit: ~/portfolio</div>
+    <div class="right">
+      <span class="badge-grounded">● grounded</span>
+      <span class="hide-sm">zsh</span>
+      <span id="clock">--:-- IST</span>
     </div>
   </div>
 
-  <p style="margin-top:24px">
-    I'm an Integrated M.Tech student in Artificial Intelligence (CGPA 8.33/10). I like building
-    ML systems that are grounded, tested and reproducible: retrieval pipelines that only cite what
-    actually applies, and LLM features that never get the final say on facts.
-  </p>
+  <div class="body">
+    <main class="term" id="term" aria-live="polite">
+      <div id="out"></div>
+      <div class="inputline" id="inputline">
+        <span class="prompt" id="live-prompt"></span>
+        <input id="cmd" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Type a command">
+      </div>
+    </main>
 
-  <p style="margin-bottom:0">Right now, I'm mostly focused on:</p>
-  <ul class="now">
-    <li>LLMs and retrieval-augmented generation (RAG)</li>
-    <li>Evaluation: hand-labelled test sets, grounding audits, reproducible runs</li>
-    <li>Competitive programming on Codeforces (Pupil, max 1367)</li>
-    <li>Applying for research and engineering internships for 2027</li>
-  </ul>
+    <aside class="panel" aria-label="Profile summary">
+<pre class="ascii" aria-hidden="true"> ___ ___
+| __/ __|
+| _|\__ \
+|_| |___/</pre>
+      <dl class="kv">
+        <dt>user</dt><dd>Fatema Saify</dd>
+        <dt>build</dt><dd>M.Tech AI · yr 3/5</dd>
+        <dt>host</dt><dd>VIT Bhopal</dd>
+        <dt>cgpa</dt><dd>8.33 / 10</dd>
+        <dt>stack</dt><dd>Python, PyTorch, LangChain</dd>
+        <dt>focus</dt><dd>LLMs · RAG · evals</dd>
+        <dt>cf</dt><dd>1367 (pupil)</dd>
+        <dt>status</dt><dd class="ok">● open to 2027 internships</dd>
+      </dl>
 
-  <div class="socials">
-    <a href="mailto:fatemasaifydev@gmail.com">Email</a>
-    <a href="https://github.com/Fatemasaifyy" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://linkedin.com/in/fatemasaify" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="https://codeforces.com/profile/fatema_saify" target="_blank" rel="noopener">Codeforces</a>
+      <h4>// EVAL REPORT</h4>
+      <div class="meter"><div class="top"><span>grounded answers</span><span class="ok">100%</span></div><div class="barbg"><div class="bar" style="width:100%"></div></div></div>
+      <div class="meter"><div class="top"><span>tests passing</span><span class="ok">121/121</span></div><div class="barbg"><div class="bar" style="width:100%"></div></div></div>
+      <div class="meter"><div class="top"><span>reproducible runs</span><span class="ok">3/3</span></div><div class="barbg"><div class="bar" style="width:100%"></div></div></div>
+      <div class="meter"><div class="top"><span>hallucinations</span><span class="ok">0</span></div><div class="barbg"><div class="bar zero"></div></div></div>
+
+      <h4>// PALETTE</h4>
+      <div class="swatch" aria-hidden="true">
+        <span style="background:var(--accent)"></span><span style="background:var(--green)"></span><span style="background:var(--amber)"></span><span style="background:var(--blue)"></span><span style="background:var(--red)"></span><span style="background:var(--muted)"></span>
+      </div>
+    </aside>
   </div>
 
-  <!-- ---------- EXPERIENCE ---------- -->
-  <section id="experience">
-    <h2>Experience</h2>
+  <div class="chips" id="chips">
+    <span class="label">run:</span>
+    <button class="chip" data-cmd="help">help</button>
+    <button class="chip" data-cmd="about">about</button>
+    <button class="chip" data-cmd="projects">projects</button>
+    <button class="chip" data-cmd="experience">experience</button>
+    <button class="chip" data-cmd="skills">skills</button>
+    <button class="chip" data-cmd="ask does she know RAG?">ask …</button>
+    <button class="chip" data-cmd="contact">contact</button>
+    <button class="chip" data-cmd="all">show everything</button>
+    <span class="keys"><kbd>Tab</kbd> complete · <kbd>↑↓</kbd> history · <kbd>Ctrl+L</kbd> clear</span>
+  </div>
 
-    <div class="item">
-      <div class="item-head">
-        <span class="item-title">Artificial Intelligence Intern · Pinnacle Labs</span>
-        <span class="date">Jun 2026 – Jul 2026</span>
-      </div>
-      <div class="sub">Remote</div>
-      <ul>
-        <li><b>Resume parser:</b> NLP pipeline (spaCy NER, PyPDF2, regex) that turns unstructured PDF/DOCX resumes into structured candidate profiles.</li>
-        <li><b>Translation app:</b> real-time translator on Hugging Face MarianMT Transformer models with a Streamlit UI.</li>
-        <li><b>Autocorrect:</b> edit-distance spell correction with an N-gram language model that ranks fixes by context.</li>
-      </ul>
-    </div>
-
-    <div class="item">
-      <div class="item-head">
-        <span class="item-title">Open Source Contributor · GirlScript Summer of Code</span>
-        <span class="date">Aug 2025 – Nov 2025</span>
-      </div>
-      <div class="sub"><a href="https://automataverse.com" target="_blank" rel="noopener">AutomataVerse</a> · Next.js, React 19, TypeScript, Redux</div>
-      <ul>
-        <li>Removed ~800 lines of duplicated code with reusable components shared across 5+ automata simulators (DFA, NFA, PDA, TM).</li>
-        <li>Moved shared state into custom React hooks; PRs merged after maintainer code review.</li>
-      </ul>
-    </div>
-
-    <div class="item">
-      <div class="item-head">
-        <span class="item-title">Integrated M.Tech, Artificial Intelligence · VIT Bhopal University</span>
-        <span class="date">Sep 2024 – Apr 2029</span>
-      </div>
-      <div class="sub">CGPA 8.33/10 · Coursework: DSA, Machine Learning, Deep Learning, Probability &amp; Statistics, Linear Algebra</div>
-    </div>
-  </section>
-
-  <!-- ---------- FEATURED PROJECTS ---------- -->
-  <section id="projects">
-    <h2>Featured projects</h2>
-    <div class="cards">
-
-      <article class="card">
-        <div class="card-head">
-          <h3><a href="https://github.com/Fatemasaifyy/freighttiger-shipping-cost-monitor" target="_blank" rel="noopener">FreightTiger Shipping Cost Watcher</a></h3>
-          <span class="date">Oct 2026</span>
-        </div>
-        <p>Take-home case study: an assistant that flags unusual weekly freight cost rises per route and only explains them when a verified context note supports it.</p>
-        <ul>
-          <li>7-stage Python pipeline over 728 route-weeks; leak-free 8-week and peer baselines that reproduce the graded sample exactly.</li>
-          <li>Fail-closed retrieval: TF-IDF index behind hard route, date-window, effect and negation filters. 19 flags, 3 justified, 16 sent for review.</li>
-          <li>LLM kept out of decisions; 121 tests, a hand-labelled eval set, and byte-identical output across runs on Linux and Windows.</li>
-        </ul>
-        <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">RAG</span><span class="tag">LLMs</span><span class="tag">pytest</span></div>
-      </article>
-
-      <article class="card">
-        <div class="card-head">
-          <h3><a href="https://github.com/Fatemasaifyy/Legal-RAG-System" target="_blank" rel="noopener">Equilaw-AI: Legal RAG System</a></h3>
-          <span class="date">Jan 2026</span>
-        </div>
-        <p>A retrieval-augmented generation system for legal analysis, with semantic search over 500K+ legal cases and reports in English, Hindi and Spanish.</p>
-        <ul>
-          <li>Sentence-transformer embeddings and cosine-similarity search over 4.2GB+ of processed case data.</li>
-          <li>Structured prompts ground answers in retrieved case law; FastAPI backend at 2–5s end-to-end latency.</li>
-        </ul>
-        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Hugging Face</span><span class="tag">LangChain</span></div>
-      </article>
-
-      <article class="card">
-        <div class="card-head">
-          <h3><a href="https://github.com/Fatemasaifyy/Trading-Bot" target="_blank" rel="noopener">Binance Futures Trading Bot</a></h3>
-          <span class="date">May 2026</span>
-        </div>
-        <p>A Python CLI for placing orders on the Binance USDT-M Futures <b>testnet</b>, with a clean, modular structure.</p>
-        <ul>
-          <li>REST client with HMAC request signing and error handling; argparse subcommands for market and limit orders.</li>
-          <li>Input validation for every order parameter, plus structured logging to file and console.</li>
-        </ul>
-        <div class="tags"><span class="tag">Python</span><span class="tag">REST APIs</span><span class="tag">CLI</span></div>
-      </article>
-
-      <article class="card">
-        <div class="card-head">
-          <h3><a href="https://github.com/Fatemasaifyy/URL-Shortener" target="_blank" rel="noopener">URL Shortener with Analytics</a></h3>
-          <span class="date">Nov 2025</span>
-        </div>
-        <p>A layered Spring Boot REST API for short links, redirects and click tracking.</p>
-        <ul>
-          <li>Thread-safe storage with ConcurrentHashMap and custom validation constraints.</li>
-          <li>95% unit-test coverage with JUnit 5, including concurrency scenarios.</li>
-        </ul>
-        <div class="tags"><span class="tag">Java 17</span><span class="tag">Spring Boot</span><span class="tag">JUnit 5</span></div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ---------- ALL REPOS ---------- -->
-  <section id="repos">
-    <h2>Repositories</h2>
-    <div class="repos" id="repo-grid"></div>
-  </section>
-
-  <!-- ---------- SKILLS ---------- -->
-  <section id="skills">
-    <h2>Skills</h2>
-    <div class="skills">
-      <div class="skill-row"><b>Languages</b><span>Python, C/C++, Java, SQL, JavaScript, TypeScript</span></div>
-      <div class="skill-row"><b>AI / LLM</b><span>LLMs, RAG, LangChain, Hugging Face, Sentence Transformers, Prompt Engineering, spaCy, PyTorch</span></div>
-      <div class="skill-row"><b>Data &amp; backend</b><span>pandas, NumPy, FastAPI, Spring Boot, REST APIs</span></div>
-      <div class="skill-row"><b>Tools</b><span>Git, GitHub, Docker, pytest, JUnit, VS Code, Jupyter</span></div>
-    </div>
-  </section>
-
-  <!-- ---------- ACHIEVEMENTS ---------- -->
-  <section id="achievements">
-    <h2>Achievements &amp; certifications</h2>
-    <div class="item">
-      <div class="item-head"><span class="item-title">IBM AI Engineering Professional Certificate</span><span class="date">Aug 2026</span></div>
-      <div class="sub">IBM, Coursera · 13 courses incl. deep learning, LLMs, RAG · <a href="https://coursera.org/verify/professional-cert/0GNRU53IE95H" target="_blank" rel="noopener">verify</a></div>
-    </div>
-    <div class="item">
-      <div class="item-head"><span class="item-title">Codeforces Pupil</span><span class="date">max rating 1367</span></div>
-      <div class="sub">Regular in timed contests · <a href="https://github.com/Fatemasaifyy/codeforces" target="_blank" rel="noopener">solutions repo</a></div>
-    </div>
-  </section>
-
-  <!-- ---------- CONTACT ---------- -->
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>
-      Open to internships and research collaborations. The fastest way to reach me is
-      <a href="mailto:fatemasaifydev@gmail.com">fatemasaifydev@gmail.com</a>, or message me on
-      <a href="https://linkedin.com/in/fatemasaify" target="_blank" rel="noopener">LinkedIn</a>.
-    </p>
-  </section>
-
-</main>
-
-<footer>© <span id="year"></span> Fatema Saify · Built with plain HTML &amp; CSS</footer>
+  <div class="status">
+    <span class="mode">GROUNDED</span>
+    <span class="hide-sm">⎇ main</span>
+    <span class="hide-sm">UTF-8</span>
+    <span class="spacer"></span>
+    <span id="facts-count" class="hide-sm">facts: 0 · citations on</span>
+    <span class="last" id="pos">Ln 1, Col 1</span>
+  </div>
+</div>
 
 <script>
-  // Curated list: only original, meaningful projects.
-  const REPOS = [
-    { name: "freighttiger-shipping-cost-monitor", desc: "Weekly freight cost anomaly detection with evidence-based explanations.", lang: "Python" },
-    { name: "Legal-RAG-System", desc: "RAG system for legal analysis over 500K+ cases, in English, Hindi and Spanish.", lang: "Python" },
-    { name: "Trading-Bot", desc: "Python CLI for placing orders on the Binance Futures testnet.", lang: "Python" },
-    { name: "URL-Shortener", desc: "URL shortener with analytics using Java and Spring Boot.", lang: "Java" },
-    { name: "codeforces", desc: "My Codeforces contest and practice solutions.", lang: "C++" }
+(() => {
+  const GH = 'https://github.com/Fatemasaifyy/';
+  const LINKS = {
+    email: 'mailto:fatemasaifydev@gmail.com',
+    github: 'https://github.com/Fatemasaifyy',
+    linkedin: 'https://linkedin.com/in/fatemasaify',
+    codeforces: 'https://codeforces.com/profile/fatema_saify',
+    ibm: 'https://coursera.org/verify/professional-cert/0GNRU53IE95H'
+  };
+
+  const PROJECTS = [
+    {
+      id: 'shipping-cost-watcher', name: 'Shipping Cost Watcher', date: 'Oct 2026', repo: 'freighttiger-shipping-cost-monitor',
+      tags: 'python · pandas · rag · llms · pytest',
+      summary: 'A 24-hour case study: flags unusual freight cost rises and only explains them when a verified note supports it.',
+      points: [
+        '7-stage pipeline over 728 route-weeks with leak-free 8-week and peer baselines.',
+        'Fail-closed retrieval: TF-IDF behind hard route, date-window, effect and negation filters.',
+        '19 flags → 3 justified with verified notes, 16 sent for human review, never guessed.',
+        'LLM kept out of decisions; 121 tests and byte-identical output on Linux and Windows.'
+      ]
+    },
+    {
+      id: 'equilaw-ai', name: 'Equilaw-AI', date: 'Jan 2026', repo: 'Legal-RAG-System',
+      tags: 'python · fastapi · hugging face · langchain',
+      summary: 'RAG system for legal analysis: semantic search over 500K+ cases, reports in English, Hindi and Spanish.',
+      points: [
+        'Sentence-transformer embeddings + cosine search over 4.2GB+ of processed case data.',
+        'Structured prompts ground answers in retrieved case law.',
+        'FastAPI backend at 2–5s end-to-end latency.'
+      ]
+    },
+    {
+      id: 'trading-bot', name: 'Binance Futures Trading Bot', date: 'May 2026', repo: 'Trading-Bot',
+      tags: 'python · rest apis · cli',
+      summary: 'A Python CLI for placing orders on the Binance USDT-M Futures testnet.',
+      points: [
+        'REST client with HMAC request signing and error handling.',
+        'argparse subcommands, validation for every order parameter, structured logging.'
+      ]
+    },
+    {
+      id: 'url-shortener', name: 'URL Shortener with Analytics', date: 'Nov 2025', repo: 'URL-Shortener',
+      tags: 'java 17 · spring boot · junit 5',
+      summary: 'A layered Spring Boot REST API for short links, redirects and click tracking.',
+      points: [
+        'Thread-safe storage with ConcurrentHashMap and custom validation constraints.',
+        '95% unit-test coverage with JUnit 5, including concurrency scenarios.'
+      ]
+    },
+    {
+      id: 'codeforces', name: 'Codeforces Solutions', date: 'ongoing', repo: 'codeforces',
+      tags: 'c++ · algorithms',
+      summary: 'My contest and practice solutions on the way to Pupil (max rating 1367).',
+      points: []
+    }
   ];
-  const LANG_COLORS = { Python: "#3572A5", Java: "#b07219", "C++": "#f34b7d" };
 
-  function renderRepos(list) {
-    const grid = document.getElementById('repo-grid');
-    grid.innerHTML = '';
-    list.forEach(r => {
-      const a = document.createElement('a');
-      a.className = 'repo';
-      a.href = 'https://github.com/Fatemasaifyy/' + r.name;
-      a.target = '_blank'; a.rel = 'noopener';
-      const name = document.createElement('div'); name.className = 'repo-name'; name.textContent = r.name;
-      const desc = document.createElement('div'); desc.className = 'repo-desc'; desc.textContent = r.desc || 'No description yet.';
-      const meta = document.createElement('div'); meta.className = 'repo-meta';
-      if (r.lang) {
-        const l = document.createElement('span');
-        const dot = document.createElement('span'); dot.className = 'dot'; dot.style.background = LANG_COLORS[r.lang] || '#999';
-        l.append(dot, r.lang); meta.append(l);
-      }
-      a.append(name, desc, meta);
-      grid.append(a);
-    });
+  // Verified facts for `ask`. Every answer carries its source; no match means no answer.
+  const FACTS = [
+    { k: ['cgpa', 'gpa', 'grade', 'marks', 'score'], a: 'CGPA 8.33/10 in the Integrated M.Tech (AI) program.', src: 'education', cmd: 'education' },
+    { k: ['study', 'college', 'university', 'vit', 'degree', 'education', 'student', 'graduat'], a: 'Integrated M.Tech in Artificial Intelligence at VIT Bhopal University, Sep 2024 – Apr 2029.', src: 'education', cmd: 'education' },
+    { k: ['pytorch', 'deep learning', 'keras', 'tensorflow', 'neural'], a: 'PyTorch and Keras through the IBM AI Engineering certificate labs; pretrained Transformer models (MarianMT) in her internship.', src: 'achievements', cmd: 'achievements' },
+    { k: ['rag', 'retrieval', 'langchain', 'embedding', 'vector', 'semantic search'], a: 'Two RAG systems: Equilaw-AI (search over 500K+ legal cases) and the fail-closed retriever in Shipping Cost Watcher.', src: 'projects', cmd: 'projects' },
+    { k: ['llm', 'gpt', 'language model', 'hallucinat', 'genai', 'generative'], a: 'She keeps LLMs out of the decision path: rules decide, the LLM only words the result, and its output is checked against the facts.', src: 'projects 1', cmd: 'projects 1' },
+    { k: ['intern', 'available', 'hire', 'hiring', 'job', 'opportunit', 'open to', 'looking'], a: 'Open to 2027 internships in AI/ML and software engineering.', src: 'contact', cmd: 'contact' },
+    { k: ['codeforces', 'competitive', 'dsa', 'rating', 'algorithm', 'cp'], a: 'Codeforces Pupil with a max rating of 1367; solutions are on GitHub.', src: 'codeforces', link: LINKS.codeforces },
+    { k: ['experience', 'internship', 'pinnacle', 'work', 'worked'], a: 'AI Intern at Pinnacle Labs (Jun – Jul 2026) and GSSoC \'25 open-source contributor (Aug – Nov 2025).', src: 'experience', cmd: 'experience' },
+    { k: ['nlp', 'spacy', 'ner', 'translation', 'transformer'], a: 'NLP work in her internship: a spaCy NER resume parser, a MarianMT translator and an N-gram autocorrect.', src: 'experience', cmd: 'experience' },
+    { k: ['java', 'spring', 'backend', 'api', 'rest', 'fastapi'], a: 'Backend: a Spring Boot REST URL shortener (95% JUnit coverage) and the FastAPI backend for Equilaw-AI.', src: 'projects', cmd: 'projects' },
+    { k: ['test', 'testing', 'pytest', 'quality', 'reproducib'], a: '121 pytest tests and byte-identical runs on Shipping Cost Watcher; 95% coverage on the URL shortener.', src: 'projects 1', cmd: 'projects 1' },
+    { k: ['open source', 'opensource', 'gssoc', 'contribut', 'react', 'typescript'], a: 'GSSoC \'25: refactored AutomataVerse simulators, removing ~800 lines of duplicated code; PRs merged after review.', src: 'experience', cmd: 'experience' },
+    { k: ['email', 'contact', 'reach', 'linkedin', 'message'], a: 'fatemasaifydev@gmail.com, or LinkedIn at linkedin.com/in/fatemasaify.', src: 'contact', cmd: 'contact' },
+    { k: ['where', 'location', 'based', 'city', 'live', 'india', 'bhopal'], a: 'Based in Bhopal, India.', src: 'whoami', cmd: 'whoami' },
+    { k: ['certificate', 'certification', 'ibm', 'course', 'coursera'], a: 'IBM AI Engineering Professional Certificate (13 courses), Aug 2026.', src: 'ibm', link: LINKS.ibm },
+    { k: ['python', 'language', 'languages', 'c++', 'skills', 'stack'], a: 'Python first, plus C/C++, Java, SQL, JavaScript and TypeScript.', src: 'skills', cmd: 'skills' }
+  ];
+
+  const out = document.getElementById('out');
+  const term = document.getElementById('term');
+  const input = document.getElementById('cmd');
+  const pos = document.getElementById('pos');
+  const PROMPT_HTML = '<span class="prompt">fatema<span class="dim">@</span>vit <span class="path">~/portfolio</span> <span class="arrow">❯</span></span>';
+  document.getElementById('live-prompt').innerHTML = PROMPT_HTML;
+  document.getElementById('facts-count').textContent = 'facts: ' + FACTS.length + ' · citations on';
+
+  const history = [];
+  let hIndex = 0;
+  let lineCount = 0;
+  let booting = true;
+  let skipBoot = false;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- output helpers ----------
+  const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const run = (cmd, label) => `<button class="run" data-cmd="${esc(cmd)}">${esc(label || cmd)}</button>`;
+  const ext = (href, label) => `<a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>`;
+
+  function block(html) {
+    const div = document.createElement('div');
+    div.className = 'block';
+    div.innerHTML = html;
+    out.append(div);
+    lineCount += (html.match(/<br|class="line|<li|<dt|<dd/g) || []).length + 1;
+    updatePos();
+    scrollDown();
+    return div;
   }
-  renderRepos(REPOS);
+  function echo(cmd) {
+    const div = document.createElement('div');
+    div.className = 'line';
+    div.innerHTML = PROMPT_HTML + ' ';
+    div.append(document.createTextNode(cmd));
+    out.append(div);
+    lineCount++;
+  }
+  function scrollDown() { term.scrollTop = term.scrollHeight; }
+  function updatePos() { pos.textContent = `Ln ${lineCount + 1}, Col ${input.value.length + 1}`; }
 
-  // Theme toggle
-  document.getElementById('theme-toggle').addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme')
-      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    const next = cur === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-    try { localStorage.setItem('theme', next); } catch (e) {}
+  // ---------- commands ----------
+  const COMMANDS = {
+    help: { desc: 'list commands', fn: () => {
+      const rows = [
+        ['whoami', 'who I am'], ['about', 'what I build and why'], ['ls', 'list sections'],
+        ['projects', 'my projects (projects 1–5 for details)'], ['experience', 'internship and open source'],
+        ['education', 'degree and coursework'], ['skills', 'languages, AI and tools'],
+        ['achievements', 'certificate and competitive programming'], ['contact', 'how to reach me'],
+        ['ask <question>', 'ask about me; every answer cites a source'], ['eval', 'my eval report'],
+        ['open <target>', 'github · linkedin · email · codeforces · 1–5'], ['all', 'print every section'],
+        ['theme', 'toggle light / dark'], ['history', 'commands you ran'], ['clear', 'clear the screen']
+      ];
+      block('<div class="grid2">' + rows.map(([c, d]) =>
+        `<div>${run(c.split(' ')[0] === 'ask' ? 'ask what is her experience with RAG?' : c.split(' ')[0], c)}</div><div class="muted">${esc(d)}</div>`).join('') + '</div>');
+    }},
+
+    whoami: { desc: 'who I am', fn: () => block(
+      '<div class="b">Fatema Saify</div>' +
+      '<div>AI/ML Engineering Student · LLMs · RAG · Evaluation</div>' +
+      '<div class="muted">Bhopal, India · <span class="ok">● open to 2027 internships</span></div>') },
+
+    about: { desc: 'what I build', fn: () => block(
+      '<h3 class="sec">## about.md</h3>' +
+      '<div class="line">I build AI systems that are grounded, tested and reproducible.</div>' +
+      '<div class="line muted">Retrieval pipelines that only cite what actually applies. LLM features that never</div>' +
+      '<div class="line muted">get the final say on facts. If the evidence isn\'t there, the system says so.</div>' +
+      '<div class="line" style="margin-top:6px">That\'s also how this terminal works: try ' + run('ask does she know PyTorch?', 'ask does she know PyTorch?') + '</div>') },
+
+    ls: { desc: 'list sections', fn: () => block(
+      ['about', 'projects', 'experience', 'education', 'skills', 'achievements', 'contact']
+        .map(d => `<button class="run dir" data-cmd="${d}">${d}/</button>`).join('') +
+      '<button class="run dir" data-cmd="eval" style="color:var(--muted)">eval.log</button>') },
+
+    projects: { desc: 'projects', fn: (args) => {
+      const n = parseInt(args[0], 10);
+      if (n >= 1 && n <= PROJECTS.length) return projectDetail(PROJECTS[n - 1]);
+      if (args[0]) {
+        const p = PROJECTS.find(x => x.id === args[0]);
+        if (p) return projectDetail(p);
+      }
+      block('<h3 class="sec">## projects/</h3>' + PROJECTS.map((p, i) =>
+        `<div class="entry"><div class="head"><span>${run('projects ' + (i + 1), `[${i + 1}] ${p.name}`)}</span><span class="dim">${esc(p.date)}</span></div>` +
+        `<div class="muted">${esc(p.summary)}</div><div class="tags">${esc(p.tags)}</div></div>`).join('') +
+        '<div class="dim">tip: type projects 1 for details, or open 1 to see the code.</div>');
+    }},
+
+    experience: { desc: 'experience', fn: () => block(
+      '<h3 class="sec">## experience/</h3>' +
+      '<div class="entry"><div class="head"><span class="b">AI Intern · Pinnacle Labs</span><span class="dim">Jun – Jul 2026 · remote</span></div><ul>' +
+      '<li><span class="acc">Resume parser:</span> spaCy NER + PyPDF2 + regex pipeline that turns PDF/DOCX resumes into structured profiles.</li>' +
+      '<li><span class="acc">Translator:</span> real-time translation on Hugging Face MarianMT Transformer models, with a Streamlit UI.</li>' +
+      '<li><span class="acc">Autocorrect:</span> edit-distance correction ranked by an N-gram language model.</li></ul></div>' +
+      '<div class="entry"><div class="head"><span class="b">Open Source Contributor · GSSoC \'25</span><span class="dim">Aug – Nov 2025 · remote</span></div>' +
+      '<div class="muted">' + ext('https://automataverse.com', 'AutomataVerse') + ' · Next.js, React 19, TypeScript, Redux</div><ul>' +
+      '<li>Removed ~800 lines of duplicated code with components shared across 5+ automata simulators.</li>' +
+      '<li>Moved shared state into custom React hooks; PRs merged after maintainer review.</li></ul></div>') },
+
+    education: { desc: 'education', fn: () => block(
+      '<h3 class="sec">## education/</h3>' +
+      '<div class="entry"><div class="head"><span class="b">Integrated M.Tech, Artificial Intelligence</span><span class="dim">Sep 2024 – Apr 2029</span></div>' +
+      '<div>VIT Bhopal University · <span class="ok">CGPA 8.33/10</span></div>' +
+      '<div class="muted">Coursework: DSA, Machine Learning, Deep Learning, Probability &amp; Statistics, Linear Algebra</div></div>') },
+
+    skills: { desc: 'skills', fn: () => block(
+      '<h3 class="sec">## skills/</h3><div class="grid2">' +
+      '<div class="acc">languages</div><div>Python, C/C++, Java, SQL, JavaScript, TypeScript</div>' +
+      '<div class="acc">ai / llm</div><div>LLMs, RAG, LangChain, Hugging Face, Sentence Transformers, Prompt Engineering, spaCy, PyTorch</div>' +
+      '<div class="acc">data &amp; backend</div><div>pandas, NumPy, FastAPI, Spring Boot, REST APIs</div>' +
+      '<div class="acc">tools</div><div>Git, GitHub, Docker, pytest, JUnit, VS Code, Jupyter</div></div>') },
+
+    achievements: { desc: 'achievements', fn: () => block(
+      '<h3 class="sec">## achievements/</h3>' +
+      '<div class="entry"><div class="head"><span class="b">IBM AI Engineering Professional Certificate</span><span class="dim">Aug 2026</span></div>' +
+      '<div class="muted">IBM · Coursera · 13 courses incl. deep learning, LLMs, RAG · ' + ext(LINKS.ibm, 'verify ↗') + '</div></div>' +
+      '<div class="entry"><div class="head"><span class="b">Codeforces Pupil</span><span class="dim">max rating 1367</span></div>' +
+      '<div class="muted">Regular in timed contests · ' + ext(LINKS.codeforces, 'profile ↗') + ' · ' + ext(GH + 'codeforces', 'solutions ↗') + '</div></div>') },
+
+    contact: { desc: 'contact', fn: () => block(
+      '<h3 class="sec">## contact/</h3><div class="grid2">' +
+      '<div class="acc">email</div><div>' + ext(LINKS.email, 'fatemasaifydev@gmail.com') + '</div>' +
+      '<div class="acc">linkedin</div><div>' + ext(LINKS.linkedin, 'linkedin.com/in/fatemasaify') + '</div>' +
+      '<div class="acc">github</div><div>' + ext(LINKS.github, 'github.com/Fatemasaifyy') + '</div>' +
+      '<div class="acc">codeforces</div><div>' + ext(LINKS.codeforces, 'fatema_saify') + '</div></div>' +
+      '<div class="muted" style="margin-top:6px">Open to 2027 internships in AI/ML and software engineering. Email is fastest.</div>') },
+
+    ask: { desc: 'ask about me', fn: (args) => {
+      const q = args.join(' ').trim();
+      if (!q) return block('<div class="muted">usage: ask &lt;question&gt; · try ' + run('ask is she open to internships?') + ' or ' + run('ask what is her cgpa?') + '</div>');
+      const ql = ' ' + q.toLowerCase() + ' ';
+      // Short plain words (rag, cp, api) must match as whole words; everything else as a substring.
+      const hit = k => (k.length <= 3 && /^\w+$/.test(k)) ? new RegExp('\\b' + k + '\\b').test(ql) : ql.includes(k);
+      const scored = FACTS.map(f => ({ f, s: f.k.filter(hit).length }))
+        .filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, 2);
+      const qLine = '<div class="dim">q: ' + esc(q) + '</div>';
+      if (!scored.length) {
+        return block(qLine + '<div class="answer none"><span class="warn">✗ no verified fact found.</span> <span class="muted">I\'d rather say that than guess.</span></div>' +
+          '<div class="dim">try asking about: rag · pytorch · internships · cgpa · codeforces · experience · testing</div>');
+      }
+      block(qLine + scored.map(({ f }) =>
+        `<div class="answer"><span class="ok">✓</span> ${esc(f.a)}<div class="cite">source: ${f.link ? ext(f.link, f.src + ' ↗') : run(f.cmd, f.src)}</div></div>`).join(''));
+    }},
+
+    eval: { desc: 'eval report', fn: () => block(
+      '<h3 class="sec">## eval.log</h3><div class="grid2">' +
+      '<div>grounded answers</div><div class="ok">100%  every ask cites a source</div>' +
+      '<div>tests passing</div><div class="ok">121/121  shipping cost watcher</div>' +
+      '<div>reproducible runs</div><div class="ok">3/3  byte-identical, Linux + Windows</div>' +
+      '<div>test coverage</div><div class="ok">95%  url shortener</div>' +
+      '<div>hallucinations</div><div class="ok">0</div></div>') },
+
+    open: { desc: 'open a link', fn: (args) => {
+      const t = (args[0] || '').toLowerCase();
+      const n = parseInt(t, 10);
+      const href = (n >= 1 && n <= PROJECTS.length) ? GH + PROJECTS[n - 1].repo : LINKS[t];
+      if (!href) return block('<div class="muted">usage: open github | linkedin | email | codeforces | 1–' + PROJECTS.length + '</div>');
+      window.open(href, '_blank', 'noopener');
+      block('<div class="muted">opening ' + ext(href, href.replace(/^mailto:|^https:\/\//, '')) + ' …</div>');
+    }},
+
+    all: { desc: 'print everything', fn: () => {
+      ['whoami', 'about', 'experience', 'education', 'projects', 'skills', 'achievements', 'contact'].forEach(c => COMMANDS[c].fn([]));
+    }},
+
+    theme: { desc: 'toggle theme', fn: (args) => {
+      const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = args[0] === 'light' || args[0] === 'dark' ? args[0] : (cur === 'dark' ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      block('<div class="muted">theme set to <span class="acc">' + next + '</span></div>');
+    }},
+
+    history: { desc: 'history', fn: () => block(history.length
+      ? history.map((h, i) => `<div><span class="dim">${String(i + 1).padStart(3, ' ')}</span>  ${run(h, h)}</div>`).join('')
+      : '<div class="muted">no commands yet</div>') },
+
+    clear: { desc: 'clear', fn: () => { out.innerHTML = ''; lineCount = 0; updatePos(); } }
+  };
+
+  // Hidden extras
+  const EXTRAS = {
+    sudo: (args) => args.join(' ').toLowerCase().includes('hire')
+      ? block('<div class="ok">[sudo] permission granted.</div><div>Great choice. Reach me at ' + ext(LINKS.email, 'fatemasaifydev@gmail.com') + ' 🎉</div>')
+      : block('<div class="err">fatema is not in the sudoers file. This incident will be reported.</div><div class="dim">(hint: sudo hire fatema)</div>'),
+    exit: () => block('<div class="muted">nice try. there\'s no exit, only ' + run('contact') + '.</div>'),
+    pwd: () => block('<div>/home/fatema/portfolio</div>'),
+    date: () => block('<div>' + esc(new Date().toString()) + '</div>'),
+    echo: (args) => block('<div class="line"></div>').firstChild.append(document.createTextNode(args.join(' '))),
+    neofetch: () => COMMANDS.eval.fn([]),
+    rm: () => block('<div class="err">rm: refusing to delete facts. grounding is non-negotiable.</div>'),
+    cd: (args) => {
+      const d = (args[0] || '').replace(/\/$/, '');
+      if (!d || d === '~' || d === '..') return block('<div class="muted">already home.</div>');
+      if (COMMANDS[d]) return COMMANDS[d].fn([]);
+      block('<div class="err">cd: no such directory: ' + esc(d) + '</div>');
+    },
+    cat: (args) => {
+      const f = (args[0] || '').replace(/\.(md|log|txt)$/, '').replace(/\/$/, '');
+      if (f === 'about') return COMMANDS.about.fn([]);
+      if (f === 'eval') return COMMANDS.eval.fn([]);
+      if (COMMANDS[f]) return COMMANDS[f].fn([]);
+      block('<div class="err">cat: ' + esc(args[0] || '') + ': no such file</div>');
+    }
+  };
+
+  function projectDetail(p) {
+    block('<h3 class="sec">## projects/' + esc(p.id) + '</h3>' +
+      '<div class="entry"><div class="head"><span class="b">' + esc(p.name) + '</span><span class="dim">' + esc(p.date) + '</span></div>' +
+      '<div>' + esc(p.summary) + '</div>' +
+      (p.points.length ? '<ul>' + p.points.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul>' : '') +
+      '<div class="tags" style="margin-top:4px">' + esc(p.tags) + '</div>' +
+      '<div style="margin-top:4px">' + ext(GH + p.repo, 'github.com/Fatemasaifyy/' + p.repo + ' ↗') + '</div></div>');
+  }
+
+  function execute(raw) {
+    const cmd = raw.trim();
+    echo(cmd);
+    if (!cmd) { scrollDown(); return; }
+    history.push(cmd); hIndex = history.length;
+    const [name, ...args] = cmd.split(/\s+/);
+    const key = name.toLowerCase();
+    if (COMMANDS[key]) COMMANDS[key].fn(args);
+    else if (EXTRAS[key]) EXTRAS[key](args);
+    else {
+      const near = Object.keys(COMMANDS).find(c => c.startsWith(key.slice(0, 2)));
+      block('<div class="err">zsh: command not found: ' + esc(name) + '</div>' +
+        '<div class="muted">' + (near ? 'did you mean ' + run(near) + '? · ' : '') + 'type ' + run('help') + ' for commands</div>');
+    }
+    scrollDown();
+  }
+
+  // ---------- input handling ----------
+  input.addEventListener('keydown', e => {
+    if (booting) { skipBoot = true; }
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const v = input.value; input.value = '';
+      execute(v); updatePos();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (hIndex > 0) { hIndex--; input.value = history[hIndex]; }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (hIndex < history.length - 1) { hIndex++; input.value = history[hIndex]; }
+      else { hIndex = history.length; input.value = ''; }
+    } else if (e.key === 'Tab') {
+      e.preventDefault();
+      const v = input.value.trim().toLowerCase();
+      if (!v) return;
+      const all = Object.keys(COMMANDS);
+      const m = all.filter(c => c.startsWith(v));
+      if (m.length === 1) input.value = m[0] + ' ';
+      else if (m.length > 1) { echo(input.value); block('<div>' + m.map(c => run(c)).join('  ') + '</div>'); }
+    } else if ((e.ctrlKey || e.metaKey) && (e.key === 'l' || e.key === 'k')) {
+      e.preventDefault();
+      COMMANDS.clear.fn();
+    }
+  });
+  input.addEventListener('input', updatePos);
+
+  // Clickable commands anywhere (chips, ls, help, citations)
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('[data-cmd]');
+    if (btn) {
+      e.preventDefault();
+      skipBoot = true;
+      execute(btn.getAttribute('data-cmd'));
+      input.focus({ preventScroll: true });
+      return;
+    }
+    if (e.target.closest('.term') && !e.target.closest('a') && !window.getSelection().toString()) {
+      input.focus({ preventScroll: true });
+    }
   });
 
-  // Header border on scroll
-  const header = document.getElementById('site-header');
-  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 0);
-  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+  // Clock in IST
+  const clock = document.getElementById('clock');
+  const tick = () => {
+    clock.textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' }).format(new Date()) + ' IST';
+  };
+  tick(); setInterval(tick, 15000);
 
-  document.getElementById('year').textContent = new Date().getFullYear();
+  // ---------- boot sequence ----------
+  const sleep = ms => new Promise(r => setTimeout(r, skipBoot || reduceMotion ? 0 : ms));
+  async function typeAndRun(cmd) {
+    for (let i = 1; i <= cmd.length; i++) {
+      input.value = cmd.slice(0, i); updatePos();
+      await sleep(45);
+    }
+    await sleep(180);
+    input.value = '';
+    execute(cmd);
+  }
+  async function boot() {
+    const steps = [
+      ['loading verified facts', FACTS.length],
+      ['indexing projects', PROJECTS.length],
+      ['grounding mode', 'on'],
+      ['hallucinations', 0]
+    ];
+    block('<div class="dim">fatema-os 3.0 (grounded) · tty1</div>');
+    const box = out.lastChild;
+    for (const [label, val] of steps) {
+      await sleep(140);
+      const d = document.createElement('div');
+      d.innerHTML = '<span class="ok">[ ok ]</span> ' + esc(label.padEnd(26, '.')) + ' <span class="acc">' + val + '</span>';
+      box.append(d); scrollDown();
+    }
+    await sleep(350);
+    await typeAndRun('whoami');
+    await sleep(250);
+    await typeAndRun('ls');
+    block('<div class="muted">type ' + run('help') + ', click anything blue, or try ' + run('ask is she open to internships?') + '</div>');
+    booting = false;
+    input.focus({ preventScroll: true });
+  }
+  boot();
+})();
 </script>
 </body>
 </html>
