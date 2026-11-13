@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fatema Saify</title>
+<meta name="description" content="Fatema Saify: AI/ML engineering student at VIT Bhopal. LLMs, RAG, NLP, and reproducible ML systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Recursive:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script>
+  // Apply saved theme before paint to avoid a flash.
+  try { var t = localStorage.getItem('theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
+<style>
+  :root {
+    --bg: #faf7f5;
+    --fg: #1f1a1a;
+    --muted: #6b6262;
+    --faint: #e8e1de;
+    --card: #ffffff;
+    --accent: #7c3aed;
+    --accent-soft: rgba(124, 58, 237, 0.10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #140f0f;
+      --fg: #e5e5e5;
+      --muted: #a39b9b;
+      --faint: #2a2323;
+      --card: #1b1515;
+      --accent: #a78bfa;
+      --accent-soft: rgba(167, 139, 250, 0.12);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #140f0f;
+    --fg: #e5e5e5;
+    --muted: #a39b9b;
+    --faint: #2a2323;
+    --card: #1b1515;
+    --accent: #a78bfa;
+    --accent-soft: rgba(167, 139, 250, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.65 Recursive, Monaco, Menlo, Consolas, monospace;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--fg); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 3px; }
+  a:hover { color: var(--accent); }
+  h1, h2, h3 { font-family: "Space Mono", Recursive, monospace; line-height: 1.25; }
+
+  /* ---------- header ---------- */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+  header.scrolled { border-bottom-color: var(--faint); }
+  nav {
+    max-width: 800px; margin: 0 auto; padding: 14px 16px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .brand { font-family: "Space Mono", monospace; font-weight: 700; text-decoration: none; margin-right: auto; }
+  .links { display: flex; gap: 18px; font-size: 14px; }
+  .links a { text-decoration: none; color: var(--muted); }
+  .links a:hover { color: var(--fg); }
+  .theme-toggle {
+    background: none; border: 1px solid var(--faint); border-radius: 8px;
+    color: var(--fg); width: 34px; height: 34px; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .theme-toggle svg { width: 18px; height: 18px; }
+  .moon { display: none; }
+  :root[data-theme="dark"] .sun { display: none; }
+  :root[data-theme="dark"] .moon { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .sun { display: none; }
+    :root:not([data-theme="light"]) .moon { display: block; }
+  }
+
+  /* ---------- layout ---------- */
+  main { max-width: 800px; margin: 0 auto; padding: 32px 16px 64px; }
+  section { margin-top: 56px; scroll-margin-top: 72px; }
+  h2 { font-size: 20px; margin: 0 0 18px; }
+  h2::before { content: "## "; color: var(--accent); }
+
+  .hero { display: flex; gap: 24px; align-items: center; margin-top: 16px; }
+  .hero h1 { font-size: 36px; margin: 0 0 4px; }
+  .tagline { color: var(--muted); margin: 0; }
+  .socials { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 18px; font-size: 14px; }
+
+  ul.now { padding-left: 20px; margin: 10px 0 0; }
+  ul.now li { margin: 4px 0; }
+  ul.now li::marker { color: var(--accent); }
+
+
+  /* ---------- timeline ---------- */
+  .item { margin-bottom: 26px; }
+  .item-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .item-title { font-weight: 600; }
+  .date { color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .sub { color: var(--muted); font-size: 14px; margin: 2px 0 6px; }
+  .item ul { margin: 6px 0 0; padding-left: 20px; }
+  .item li { margin: 3px 0; font-size: 15px; }
+
+  /* ---------- project cards ---------- */
+  .cards { display: grid; gap: 14px; }
+  .card {
+    background: var(--card); border: 1px solid var(--faint); border-radius: 10px;
+    padding: 18px 18px 16px;
+  }
+  .card h3 { font-size: 16px; margin: 0; }
+  .card h3 a { text-decoration: none; }
+  .card p { margin: 8px 0 10px; font-size: 15px; }
+  .card ul { margin: 0 0 10px; padding-left: 20px; font-size: 14px; }
+  .card li { margin: 3px 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12px; padding: 2px 8px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .card-links { display: flex; gap: 14px; font-size: 13px; margin-top: 10px; }
+  .card-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+
+  /* ---------- repo table ---------- */
+  .repos { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+  .repo {
+    border: 1px solid var(--faint); border-radius: 8px; padding: 12px 14px;
+    text-decoration: none; display: block; font-size: 14px;
+  }
+  .repo:hover { border-color: var(--accent); color: var(--fg); }
+  .repo-name { font-weight: 600; word-break: break-word; }
+  .repo-desc { color: var(--muted); font-size: 13px; margin: 4px 0 8px; }
+  .repo-meta { display: flex; gap: 10px; font-size: 12px; color: var(--muted); align-items: center; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: 4px; }
+
+  /* ---------- skills ---------- */
+  .skills { display: grid; gap: 10px; }
+  .skill-row { display: grid; grid-template-columns: 150px 1fr; gap: 12px; font-size: 15px; }
+  .skill-row b { color: var(--muted); font-weight: 600; }
+
+  footer { max-width: 800px; margin: 0 auto; padding: 24px 16px 40px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--faint); }
+
+  @media (max-width: 600px) {
+    .hero { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .hero h1 { font-size: 28px; }
+    .links { display: none; }
+    .skill-row { grid-template-columns: 1fr; gap: 2px; }
+    section { margin-top: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <nav aria-label="Primary">
+    <a class="brand" href="#top">fatema.saify</a>
+    <div class="links">
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#repos">Repos</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ---------- HERO ---------- -->
+  <div class="hero">
+    <div>
+      <h1>Hi, I'm Fatema</h1>
+      <p class="tagline">AI/ML engineering student at VIT Bhopal · building reliable LLM systems</p>
+    </div>
+  </div>
+
+  <p style="margin-top:24px">
+    I'm an Integrated M.Tech student in Artificial Intelligence (CGPA 8.33/10). I like building
+    ML systems that are grounded, tested and reproducible: retrieval pipelines that only cite what
+    actually applies, and LLM features that never get the final say on facts.
+  </p>
+
+  <p style="margin-bottom:0">Right now, I'm mostly focused on:</p>
+  <ul class="now">
+    <li>LLMs and retrieval-augmented generation (RAG)</li>
+    <li>Evaluation: hand-labelled test sets, grounding audits, reproducible runs</li>
+    <li>Competitive programming on Codeforces (Pupil, max 1367)</li>
+    <li>Applying for research and engineering internships for 2027</li>
+  </ul>
+
+  <div class="socials">
+    <a href="mailto:fatemasaifydev@gmail.com">Email</a>
+    <a href="https://github.com/Fatemasaifyy" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/fatemasaify" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://codeforces.com/profile/fatema_saify" target="_blank" rel="noopener">Codeforces</a>
+  </div>
+
+  <!-- ---------- EXPERIENCE ---------- -->
+  <section id="experience">
+    <h2>Experience</h2>
+
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Artificial Intelligence Intern · Pinnacle Labs</span>
+        <span class="date">Jun 2026 – Jul 2026</span>
+      </div>
+      <div class="sub">Remote</div>
+      <ul>
+        <li><b>Resume parser:</b> NLP pipeline (spaCy NER, PyPDF2, regex) that turns unstructured PDF/DOCX resumes into structured candidate profiles.</li>
+        <li><b>Translation app:</b> real-time translator on Hugging Face MarianMT Transformer models with a Streamlit UI.</li>
+        <li><b>Autocorrect:</b> edit-distance spell correction with an N-gram language model that ranks fixes by context.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Open Source Contributor · GirlScript Summer of Code</span>
+        <span class="date">Aug 2025 – Nov 2025</span>
+      </div>
+      <div class="sub"><a href="https://automataverse.com" target="_blank" rel="noopener">AutomataVerse</a> · Next.js, React 19, TypeScript, Redux</div>
+      <ul>
+        <li>Removed ~800 lines of duplicated code with reusable components shared across 5+ automata simulators (DFA, NFA, PDA, TM).</li>
+        <li>Moved shared state into custom React hooks; PRs merged after maintainer code review.</li>
+      </ul>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Integrated M.Tech, Artificial Intelligence · VIT Bhopal University</span>
+        <span class="date">Sep 2024 – Apr 2029</span>
+      </div>
+      <div class="sub">CGPA 8.33/10 · Coursework: DSA, Machine Learning, Deep Learning, Probability &amp; Statistics, Linear Algebra</div>
+    </div>
+  </section>
+
+  <!-- ---------- FEATURED PROJECTS ---------- -->
+  <section id="projects">
+    <h2>Featured projects</h2>
+    <div class="cards">
+
+      <article class="card">
+        <div class="card-head">
+          <h3><a href="https://github.com/Fatemasaifyy/freighttiger-shipping-cost-monitor" target="_blank" rel="noopener">FreightTiger Shipping Cost Watcher</a></h3>
+          <span class="date">Oct 2026</span>
+        </div>
+        <p>Take-home case study: an assistant that flags unusual weekly freight cost rises per route and only explains them when a verified context note supports it.</p>
+        <ul>
+          <li>7-stage Python pipeline over 728 route-weeks; leak-free 8-week and peer baselines that reproduce the graded sample exactly.</li>
+          <li>Fail-closed retrieval: TF-IDF index behind hard route, date-window, effect and negation filters. 19 flags, 3 justified, 16 sent for review.</li>
+          <li>LLM kept out of decisions; 121 tests, a hand-labelled eval set, and byte-identical output across runs on Linux and Windows.</li>
+        </ul>
+        <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">RAG</span><span class="tag">LLMs</span><span class="tag">pytest</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3><a href="https://github.com/Fatemasaifyy/Legal-RAG-System" target="_blank" rel="noopener">Equilaw-AI: Legal RAG System</a></h3>
+          <span class="date">Jan 2026</span>
+        </div>
+        <p>A retrieval-augmented generation system for legal analysis, with semantic search over 500K+ legal cases and reports in English, Hindi and Spanish.</p>
+        <ul>
+          <li>Sentence-transformer embeddings and cosine-similarity search over 4.2GB+ of processed case data.</li>
+          <li>Structured prompts ground answers in retrieved case law; FastAPI backend at 2–5s end-to-end latency.</li>
+        </ul>
+        <div class="tags"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Hugging Face</span><span class="tag">LangChain</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3><a href="https://github.com/Fatemasaifyy/Trading-Bot" target="_blank" rel="noopener">Binance Futures Trading Bot</a></h3>
+          <span class="date">May 2026</span>
+        </div>
+        <p>A Python CLI for placing orders on the Binance USDT-M Futures <b>testnet</b>, with a clean, modular structure.</p>
+        <ul>
+          <li>REST client with HMAC request signing and error handling; argparse subcommands for market and limit orders.</li>
+          <li>Input validation for every order parameter, plus structured logging to file and console.</li>
+        </ul>
+        <div class="tags"><span class="tag">Python</span><span class="tag">REST APIs</span><span class="tag">CLI</span></div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h3><a href="https://github.com/Fatemasaifyy/URL-Shortener" target="_blank" rel="noopener">URL Shortener with Analytics</a></h3>
+          <span class="date">Nov 2025</span>
+        </div>
+        <p>A layered Spring Boot REST API for short links, redirects and click tracking.</p>
+        <ul>
+          <li>Thread-safe storage with ConcurrentHashMap and custom validation constraints.</li>
+          <li>95% unit-test coverage with JUnit 5, including concurrency scenarios.</li>
+        </ul>
+        <div class="tags"><span class="tag">Java 17</span><span class="tag">Spring Boot</span><span class="tag">JUnit 5</span></div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ---------- ALL REPOS ---------- -->
+  <section id="repos">
+    <h2>Repositories</h2>
+    <div class="repos" id="repo-grid"></div>
+  </section>
+
+  <!-- ---------- SKILLS ---------- -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill-row"><b>Languages</b><span>Python, C/C++, Java, SQL, JavaScript, TypeScript</span></div>
+      <div class="skill-row"><b>AI / LLM</b><span>LLMs, RAG, LangChain, Hugging Face, Sentence Transformers, Prompt Engineering, spaCy, PyTorch</span></div>
+      <div class="skill-row"><b>Data &amp; backend</b><span>pandas, NumPy, FastAPI, Spring Boot, REST APIs</span></div>
+      <div class="skill-row"><b>Tools</b><span>Git, GitHub, Docker, pytest, JUnit, VS Code, Jupyter</span></div>
+    </div>
+  </section>
+
+  <!-- ---------- ACHIEVEMENTS ---------- -->
+  <section id="achievements">
+    <h2>Achievements &amp; certifications</h2>
+    <div class="item">
+      <div class="item-head"><span class="item-title">IBM AI Engineering Professional Certificate</span><span class="date">Aug 2026</span></div>
+      <div class="sub">IBM, Coursera · 13 courses incl. deep learning, LLMs, RAG · <a href="https://coursera.org/verify/professional-cert/0GNRU53IE95H" target="_blank" rel="noopener">verify</a></div>
+    </div>
+    <div class="item">
+      <div class="item-head"><span class="item-title">Codeforces Pupil</span><span class="date">max rating 1367</span></div>
+      <div class="sub">Regular in timed contests · <a href="https://github.com/Fatemasaifyy/codeforces" target="_blank" rel="noopener">solutions repo</a></div>
+    </div>
+  </section>
+
+  <!-- ---------- CONTACT ---------- -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>
+      Open to internships and research collaborations. The fastest way to reach me is
+      <a href="mailto:fatemasaifydev@gmail.com">fatemasaifydev@gmail.com</a>, or message me on
+      <a href="https://linkedin.com/in/fatemasaify" target="_blank" rel="noopener">LinkedIn</a>.
+    </p>
+  </section>
+
+</main>
+
+<footer>© <span id="year"></span> Fatema Saify · Built with plain HTML &amp; CSS</footer>
+
+<script>
+  // Curated list: only original, meaningful projects.
+  const REPOS = [
+    { name: "freighttiger-shipping-cost-monitor", desc: "Weekly freight cost anomaly detection with evidence-based explanations.", lang: "Python" },
+    { name: "Legal-RAG-System", desc: "RAG system for legal analysis over 500K+ cases, in English, Hindi and Spanish.", lang: "Python" },
+    { name: "Trading-Bot", desc: "Python CLI for placing orders on the Binance Futures testnet.", lang: "Python" },
+    { name: "URL-Shortener", desc: "URL shortener with analytics using Java and Spring Boot.", lang: "Java" },
+    { name: "codeforces", desc: "My Codeforces contest and practice solutions.", lang: "C++" }
+  ];
+  const LANG_COLORS = { Python: "#3572A5", Java: "#b07219", "C++": "#f34b7d" };
+
+  function renderRepos(list) {
+    const grid = document.getElementById('repo-grid');
+    grid.innerHTML = '';
+    list.forEach(r => {
+      const a = document.createElement('a');
+      a.className = 'repo';
+      a.href = 'https://github.com/Fatemasaifyy/' + r.name;
+      a.target = '_blank'; a.rel = 'noopener';
+      const name = document.createElement('div'); name.className = 'repo-name'; name.textContent = r.name;
+      const desc = document.createElement('div'); desc.className = 'repo-desc'; desc.textContent = r.desc || 'No description yet.';
+      const meta = document.createElement('div'); meta.className = 'repo-meta';
+      if (r.lang) {
+        const l = document.createElement('span');
+        const dot = document.createElement('span'); dot.className = 'dot'; dot.style.background = LANG_COLORS[r.lang] || '#999';
+        l.append(dot, r.lang); meta.append(l);
+      }
+      a.append(name, desc, meta);
+      grid.append(a);
+    });
+  }
+  renderRepos(REPOS);
+
+  // Theme toggle
+  document.getElementById('theme-toggle').addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme')
+      || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  // Header border on scroll
+  const header = document.getElementById('site-header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 0);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
